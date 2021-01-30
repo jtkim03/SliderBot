@@ -18,7 +18,7 @@ module.exports = {
         const voiceChannel = message.member.voice.channel;
         
         const connection = await voiceChannel.join();
-        var hour = 4
+        var hour = new Date().getHours()
         time = formatAMPM(new Date)
 
         if(!voiceChannel) {
