@@ -8,29 +8,34 @@ function formatAMPM(date) {
     var strTime = hours + ':' + minutes + ' ' + ampm;
     return strTime;
 }
-
 //TODO: add loops and theme changes
 module.exports = {
 	name: 'hourly',
 	description: 'Plays hourly theme',
 	async execute(message, args) {
+        
         const serverQueue = new Map();
         const voiceChannel = message.member.voice.channel;
         
         const connection = await voiceChannel.join();
         var hour = new Date().getHours()
         time = formatAMPM(new Date)
+        //plays looped part of song, recursively calling itself
+        function play () {
+            const dispatcher = connection.play(`./hourly/${hour}.mp3`)
+            .on('finish', play);
+        }
 
         if(!voiceChannel) {
             return message.channel.send('You need to be in a voice channel to execute this command.')
         }
-        //TODO: add intros
+        
         voiceChannel.join().then(connection => {
-            const play = () => {
-                const dispatcher = connection.play(`./hourly/${hour}.mp3`)
-                .on('finish', play);
+        if (hour === 4 || hour === 7 || hour === 13 ||  hour === 21 || hour === 17) {
+                //plays intro before loop
+                connection.play(`./hourly/${hour}_intro.mp3`).on('finish',play)
             }
-            play();
+
         })
             
             await message.channel.send(`:microphone: It is now ` + time)
