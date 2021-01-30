@@ -14,21 +14,25 @@ module.exports = {
 	name: 'hourly',
 	description: 'Plays hourly theme',
 	async execute(message, args) {
+        const serverQueue = new Map();
         const voiceChannel = message.member.voice.channel;
         
+        const connection = await voiceChannel.join();
+        var hour = 4
+        time = formatAMPM(new Date)
+
         if(!voiceChannel) {
             return message.channel.send('You need to be in a voice channel to execute this command.')
         }
-
-        const connection = await voiceChannel.join();
-        var hour = new Date().getHours();
-        time = formatAMPM(new Date)
+        //TODO: add intros
+        voiceChannel.join().then(connection => {
+            const play = () => {
+                const dispatcher = connection.play(`./hourly/${hour}.mp3`)
+                .on('finish', play);
+            }
+            play();
+        })
             
-            const dispatcher = connection.play(`./hourly/${hour}.mp3`)
-            .on('finish', () => {
-                voiceChannel.leave();
-            });
-
             await message.channel.send(`:microphone: It is now ` + time)
     }
 }
