@@ -31,10 +31,14 @@ module.exports = {
         }
         
         voiceChannel.join().then(connection => {
-        if (hour === 4 || hour === 7 || hour === 13 ||  hour === 21 || hour === 17) {
+        if (hour === 4 || hour === 7 || hour === 13 ||  hour === 21 || hour === 17) {  //songs with intros
                 //plays intro before loop
                 connection.play(`./hourly/${hour}_intro.mp3`).on('finish',play)
             }
+        else {
+            connection.play(`./hourly/${hour}.mp3`).on('finish',play)
+            
+        }
 
         })
             
