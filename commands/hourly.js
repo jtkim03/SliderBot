@@ -8,7 +8,7 @@ function formatAMPM(date) {
     var strTime = hours + ':' + minutes + ' ' + ampm;
     return strTime;
 }
-//TODO: add loops and theme changes
+//TODO: add bell chime between theme changes
 module.exports = {
     name: 'hourly',
     description: 'Plays hourly theme',
@@ -23,14 +23,15 @@ module.exports = {
         tracker = []
         //plays looped part of song, recursively calling itself
         function play(tracker) {
+            var hour_now = new Date().getHours();
             if (tracker.length == 0 && (hour === 4 || hour === 7 || hour === 13 || hour === 21 || hour === 17)) {
-                    connection.play(`./hourly/${hour}_intro.mp3`).on('finish', () => {
+                    connection.play(`./hourly/${hour_now}_intro.mp3`).on('finish', () => {
                         tracker.push('x');
                         play(tracker);
                     })
                 }
             else {
-                connection.play(`./hourly/${hour}.mp3`)
+                connection.play(`./hourly/${hour_now}.mp3`)
                     .on('finish', () => {
                         play(tracker)
                     });
