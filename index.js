@@ -25,7 +25,7 @@ client.on("message", message => {
     const command = args.shift().toLowerCase();
 
     if (!client.commands.has(command)) {
-        message.reply("I'm sorry, I didn't quite understand that. Use !help for a list of available commands");
+        message.reply("I'm sorry, I didn't quite understand that. Use ~help for a list of available commands");
         return;
     }
 

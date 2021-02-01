@@ -19,19 +19,25 @@ module.exports = {
 
         const connection = await voiceChannel.join();
         var hour = new Date().getHours();
-        time = formatAMPM(new Date)
+        var time = formatAMPM(new Date)
         tracker = []
         //plays looped part of song, recursively calling itself
         function play(tracker) {
             var hour_now = new Date().getHours();
+            if (hour_now !== hour) {
+                tracker.pop();
+                hour = hour_now
+                time = formatAMPM(new Date)
+                message.channel.send(`:microphone: It is now ` + time)
+            }
             if (tracker.length == 0 && (hour === 4 || hour === 7 || hour === 13 || hour === 21 || hour === 17)) {
-                    connection.play(`./hourly/${hour_now}_intro.mp3`).on('finish', () => {
+                    connection.play(`./hourly/${hour}_intro.mp3`).on('finish', () => {
                         tracker.push('x');
                         play(tracker);
                     })
                 }
             else {
-                connection.play(`./hourly/${hour_now}.mp3`)
+                connection.play(`./hourly/${hour}.mp3`)
                     .on('finish', () => {
                         play(tracker)
                     });

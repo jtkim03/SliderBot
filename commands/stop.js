@@ -11,6 +11,6 @@ module.exports = {
         }
 
         await voiceChannel.leave()
-		message.channel.send("Goodnight kiddos :wave:")
+		message.channel.send("Catch you all later :wave:")
 	},
 };
